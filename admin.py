@@ -15,6 +15,7 @@ def web_files_access(index, snapshot):
     print(f"Acesse o link: http://{ip_nas}:8080")
     print("-" * 30)
     cmd = " ".join(list_command)
+    print(cmd)
     subprocess.call(cmd, shell=True)
 
 def get_file():
@@ -28,7 +29,7 @@ def get_file():
         .decode()
         .split("\n")
     )
-    list_snapshots = [i.replace('auto-', '') for i in list_snapshots[::-1] if i != '']
+    list_snapshots = [i for i in list_snapshots[::-1] if i != '']
 
     for index, value in enumerate(list_snapshots):
         print(index, "-", value)
