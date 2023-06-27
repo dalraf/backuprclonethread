@@ -18,7 +18,11 @@ def web_files_access(index, snapshot):
     print(cmd)
     subprocess.call(cmd, shell=True)
 
-def get_file(index_pa):
+def get_file():
+    for index, value in enumerate(location_list):
+        print(index, "-", value["nome"].upper())
+    print("-" * 30)
+    index_pa = int(input(f"Selecione o PA: "))
     destino = location_list[index_pa]["destin"]
     list_snapshots = (
         subprocess.check_output(f"ls {destino}.zfs/snapshot/", shell=True)
@@ -35,14 +39,11 @@ def get_file(index_pa):
 
     web_files_access(index_pa, snapshot)
 
-def get_log(index_pa):
-    ...
-
-
-for index, value in enumerate(location_list):
-    print(index, "-", value["nome"].upper())
-print("-" * 10)
-index_pa = int(input(f"Selecione o PA: "))
+def get_log():
+    log_dir = "/var/log/"
+    print(f"Acesse o link: http://{ip_nas}:8080")
+    print("-" * 30)
+    subprocess.call(f'rclone serve http --addr :8080 {log_dir}', shell=True)
 
 repeat_loop = True
 while repeat_loop:
@@ -50,9 +51,9 @@ while repeat_loop:
     escolha_funcao = input('Deseja recuperar arquivos ou ver os logs? (R,L): ')
 
     if escolha_funcao.upper() == 'R':
-        get_file(index_pa)
+        get_file()
     elif escolha_funcao.upper() == 'L':
-        get_log(index_pa)
+        get_log()
     else:
         print('Escolha invalida! Digite L ou R')
         repeat_loop = True
