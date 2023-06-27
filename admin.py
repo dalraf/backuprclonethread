@@ -1,0 +1,40 @@
+import subprocess
+from config import rclone_bin, location_list, ip_nas
+from functions import gen_crypt
+
+rclone_web_acess_options = "serve http --addr :8080"
+
+def web_files_acess(index, snapshot):
+    value = location_list[index]
+    destino = value["destin"]
+    list_command = [
+        rclone_bin,
+        rclone_web_acess_options,
+        gen_crypt(f"{destino}.zfs/snapshot/{snapshot}/"),
+    ]
+    print(f"Acesse o link: http://{ip_nas}:8080")
+    print("-" * 30)
+    cmd = " ".join(list_command)
+    print(cmd)
+    subprocess.call(cmd, shell=True)
+
+
+for index, value in enumerate(location_list):
+    print(index, "-", value["nome"].upper())
+print("-" * 10)
+index_pa = int(input(f"Selecione o PA:"))
+destino = location_list[index_pa]["destin"]
+list_snapshots = (
+    subprocess.check_output(f"ls {destino}.zfs/snapshot/", shell=True)
+    .decode()
+    .split("\n")
+)
+list_snapshots = [i.replace('auto-', '') for i in list_snapshots[::-1] if i != '']
+
+for index, value in enumerate(list_snapshots):
+    print(index, "-", value)
+print("-" * 30)
+index_snapshot = int(input(f"Selecione o Snaphost:"))
+snapshot = list_snapshots[index_snapshot]
+
+web_files_acess(index_pa, snapshot)
