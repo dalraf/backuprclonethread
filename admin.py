@@ -4,7 +4,7 @@ from functions import gen_crypt
 
 rclone_web_acess_options = "serve http --addr :8080"
 
-def web_files_acess(index, snapshot):
+def web_files_access(index, snapshot):
     value = location_list[index]
     destino = value["destin"]
     list_command = [
@@ -37,4 +37,4 @@ print("-" * 30)
 index_snapshot = int(input(f"Selecione o Snaphost:"))
 snapshot = list_snapshots[index_snapshot]
 
-web_files_acess(index_pa, snapshot)
+web_files_access(index_pa, snapshot)
