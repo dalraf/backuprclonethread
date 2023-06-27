@@ -18,23 +18,41 @@ def web_files_access(index, snapshot):
     print(cmd)
     subprocess.call(cmd, shell=True)
 
+def get_file(index_pa):
+    destino = location_list[index_pa]["destin"]
+    list_snapshots = (
+        subprocess.check_output(f"ls {destino}.zfs/snapshot/", shell=True)
+        .decode()
+        .split("\n")
+    )
+    list_snapshots = [i.replace('auto-', '') for i in list_snapshots[::-1] if i != '']
+
+    for index, value in enumerate(list_snapshots):
+        print(index, "-", value)
+    print("-" * 30)
+    index_snapshot = int(input(f"Selecione o Snaphost: "))
+    snapshot = list_snapshots[index_snapshot]
+
+    web_files_access(index_pa, snapshot)
+
+def get_log(index_pa):
+    ...
+
 
 for index, value in enumerate(location_list):
     print(index, "-", value["nome"].upper())
 print("-" * 10)
-index_pa = int(input(f"Selecione o PA:"))
-destino = location_list[index_pa]["destin"]
-list_snapshots = (
-    subprocess.check_output(f"ls {destino}.zfs/snapshot/", shell=True)
-    .decode()
-    .split("\n")
-)
-list_snapshots = [i.replace('auto-', '') for i in list_snapshots[::-1] if i != '']
+index_pa = int(input(f"Selecione o PA: "))
 
-for index, value in enumerate(list_snapshots):
-    print(index, "-", value)
-print("-" * 30)
-index_snapshot = int(input(f"Selecione o Snaphost:"))
-snapshot = list_snapshots[index_snapshot]
+repeat_loop = True
+while repeat_loop:
+    repeat_loop = False
+    escolha_funcao = input('Deseja recuperar arquivos ou ver os logs? (R,L): ')
 
-web_files_access(index_pa, snapshot)
+    if escolha_funcao.upper() == 'R':
+        get_file(index_pa)
+    elif escolha_funcao.upper() == 'L':
+        get_log(index_pa)
+    else:
+        print('Escolha invalida! Digite L ou R')
+        repeat_loop = True
