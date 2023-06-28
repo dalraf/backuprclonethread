@@ -43,7 +43,7 @@ def get_log():
     log_dir = "/var/log/"
     print(f"Acesse o link: http://{ip_nas}:8080")
     print("-" * 30)
-    subprocess.call(f'rclone serve http --addr :8080 {log_dir}', shell=True)
+    subprocess.call(f'rclone serve http --addr :8080 {log_dir} --include "backup*" ', shell=True)
 
 repeat_loop = True
 while repeat_loop:
