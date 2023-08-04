@@ -23,8 +23,8 @@ def task(value):
     list_command = [
         rclone_bin,
         rclone_options,
-        gen_sftp(*value["origin"]),
-        gen_crypt(value["destin"]),
+        value["origin"],
+        value["destin"],
         rclone_log_command,
     ]
     command = " ".join(list_command)

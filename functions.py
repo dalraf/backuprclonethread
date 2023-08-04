@@ -1,6 +1,5 @@
-from config import sftp_pass, crypto_pass
 
-def gen_sftp(host, port, user, diretorio):
+def gen_sftp(host, port, user, diretorio, sftp_pass):
     param_list = []
     param_list.append(f'--sftp-host {host}')
     param_list.append(f'--sftp-port {port}')
@@ -14,7 +13,17 @@ def gen_sftp(host, port, user, diretorio):
     cmd = " ".join(param_list)
     return cmd
 
-def gen_crypt(diretorio):
+def gen_smb(host, user, smb_pass, share):
+    param_list = []
+    param_list.append(f'--smb-host {host}')
+    param_list.append(f'--smb-user {user}')
+    param_list.append(f'--smb-pass "{smb_pass}"')
+    param_list.append(f':smb:/{share}')
+
+    cmd = " ".join(param_list)
+    return cmd
+
+def gen_crypt(diretorio, crypto_pass):
     param_list = []
     param_list.append(f'--crypt-remote {diretorio}')
     param_list.append(f'--crypt-filename-encryption "obfuscate"')
