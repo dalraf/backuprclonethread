@@ -8,7 +8,7 @@ def gen_sftp(host, port, user, diretorio, sftp_pass):
     param_list.append(f'--sftp-shell-type "unix"')
     param_list.append(f'--sftp-md5sum-command "md5 -r"')
     param_list.append(f'--sftp-sha1sum-command "sha1 -r"')
-    param_list.append(f':sftp:{diretorio}')
+    param_list.append(f'":sftp:{diretorio}"')
 
     cmd = " ".join(param_list)
     return cmd
@@ -18,7 +18,7 @@ def gen_smb(host, user, smb_pass, share):
     param_list.append(f'--smb-host {host}')
     param_list.append(f'--smb-user {user}')
     param_list.append(f'--smb-pass "{smb_pass}"')
-    param_list.append(f':smb:/{share}')
+    param_list.append(f'":smb:/{share}"')
 
     cmd = " ".join(param_list)
     return cmd
