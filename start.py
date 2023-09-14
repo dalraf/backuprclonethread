@@ -1,6 +1,6 @@
 import threading
 import subprocess
-from log_file_handler import CompressingRotatingFileHandler
+from log_file_handler import rotate_and_zip_logs
 import random
 import sys
 from config import rclone_bin, rclone_options, location_list
@@ -29,9 +29,8 @@ def task(value):
     ]
     command = " ".join(list_command)
     print(command)
-    rotate_log = CompressingRotatingFileHandler(log_file, backupCount=20)
     try:
-        rotate_log.doRollover()
+        rotate_and_zip_logs(log_file, 20)
     except Exception as e:
         print(e.args[0])
     subprocess.call(command, shell=True)
