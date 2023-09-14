@@ -24,7 +24,7 @@ def rotate_and_zip_logs(log_filename, max_logs):
     for i in range(1, max_logs + 1):
         log_to_zip = f"{log_filename}.{i}"
         if os.path.exists(log_to_zip):
-            log_zipfile = f"{log_filename}_{i}.zip"
+            log_zipfile = f"{log_filename}.{i}.zip"
             with zipfile.ZipFile(log_zipfile, 'w', zipfile.ZIP_DEFLATED) as zipf:
                 zipf.write(log_to_zip, os.path.basename(log_to_zip))
             os.remove(log_to_zip)
