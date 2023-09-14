@@ -36,7 +36,7 @@ def gen_crypt(diretorio, crypto_pass):
 def gen_crypt_encoding(diretorio, crypto_pass):
     param_list = []
     param_list.append(f'--crypt-remote {diretorio}')
-    param_list.append(f'--crypt-filename-encoding')
+    param_list.append(f'--crypt-filename-encoding "base32"')
     param_list.append(f'--crypt-password "{crypto_pass}"')
     param_list.append(f':crypt:/')
 
