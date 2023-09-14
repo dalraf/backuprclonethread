@@ -9,8 +9,8 @@ def rotate_and_zip_logs(log_filename, max_logs):
     
     # Renomeie os arquivos de log existentes, mantendo até o número máximo
     for i in range(max_logs, 0, -1):
-        current_log = f"{log_filename}.{i}"
-        next_log = f"{log_filename}.{i+1}" if i < max_logs else f"{log_filename}.1"
+        current_log = f"{log_filename}.{i}.zip"
+        next_log = f"{log_filename}.{i+1}.zip" if i < max_logs else f"{log_filename}.1.zip"
         if os.path.exists(current_log):
             os.rename(current_log, next_log)
     
