@@ -42,3 +42,13 @@ def gen_crypt_encoding(diretorio, crypto_pass):
 
     cmd = " ".join(param_list)
     return cmd
+
+def gen_crypt_file_name_off(diretorio, crypto_pass):
+    param_list = []
+    param_list.append(f'--crypt-remote {diretorio}')
+    param_list.append(f'--crypt-filename-encryption "off"')
+    param_list.append(f'--crypt-password "{crypto_pass}"')
+    param_list.append(f':crypt:/')
+
+    cmd = " ".join(param_list)
+    return cmd
