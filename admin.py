@@ -7,7 +7,7 @@ rclone_web_acess_options = "serve http --addr :8080"
 
 def web_files_access(index, snapshot):
     value = location_list[index]
-    destino = value["destin"]
+    destino = value["destin"].localpath
     list_command = [
         rclone_bin,
         rclone_web_acess_options,
