@@ -1,4 +1,5 @@
 import subprocess
+import re
 from config import rclone_bin, location_list, ip_nas
 from functions import gen_crypt, gen_crypt_encoding, gen_crypt_file_name_off
 
@@ -23,7 +24,8 @@ def get_file():
         print(index, "-", value["nome"].upper())
     print("-" * 30)
     index_pa = int(input(f"Selecione o PA: "))
-    destino = location_list[index_pa]["destin"]
+    cmd_destino = location_list[index_pa]["destin"]
+    destino = re.search(r'--crypt-remote\b(\d+)\b', cmd_destino).group(0)
     list_snapshots = (
         subprocess.check_output(f"ls {destino}.zfs/snapshot/", shell=True)
         .decode()
