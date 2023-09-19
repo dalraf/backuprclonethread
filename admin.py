@@ -1,6 +1,6 @@
 import subprocess
 from config import rclone_bin, location_list, ip_nas
-from functions import gen_crypt
+from functions import gen_crypt, gen_crypt_encoding, gen_crypt_file_name_off
 
 rclone_web_acess_options = "serve http --addr :8080"
 
