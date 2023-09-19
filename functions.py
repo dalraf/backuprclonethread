@@ -1,7 +1,8 @@
 class Cmd_Definition():
-    def __init__(self, localpath ,cmd):
+    def __init__(self, localpath, cmd_backup, cmd_recover):
         self.localpath = localpath
-        self.cmd = cmd
+        self.cmd_backup = cmd_backup
+        self.cmd_recover = cmd_recover
 
 
 def gen_sftp(host, port, user, diretorio, sftp_pass):
@@ -29,31 +30,49 @@ def gen_smb(host, user, smb_pass, share):
     return cmd
 
 def gen_crypt(diretorio, crypto_pass):
-    param_list = []
-    param_list.append(f'--crypt-remote {diretorio}')
-    param_list.append(f'--crypt-filename-encryption "obfuscate"')
-    param_list.append(f'--crypt-password "{crypto_pass}"')
-    param_list.append(f':crypt:/')
+    def gen_cmd(path):
+        param_list = []
+        param_list.append(f'--crypt-remote {path}')
+        param_list.append(f'--crypt-filename-encryption "obfuscate"')
+        param_list.append(f'--crypt-password "{crypto_pass}"')
+        param_list.append(f':crypt:/')
+        return " ".join(param_list)
 
-    cmd = " ".join(param_list)
-    return Cmd_Definition(diretorio, cmd)
+    cmd_backup = gen_cmd(diretorio)
+    
+    def cmd_recover(recover_path):
+         return gen_cmd(recover_path)        
+
+    return Cmd_Definition(diretorio, cmd_backup, cmd_recover)
 
 def gen_crypt_encoding(diretorio, crypto_pass):
-    param_list = []
-    param_list.append(f'--crypt-remote {diretorio}')
-    param_list.append(f'--crypt-filename-encoding "base32"')
-    param_list.append(f'--crypt-password "{crypto_pass}"')
-    param_list.append(f':crypt:/')
+    def gen_cmd(path):
+        param_list = []
+        param_list.append(f'--crypt-remote {diretorio}')
+        param_list.append(f'--crypt-filename-encoding "base32"')
+        param_list.append(f'--crypt-password "{crypto_pass}"')
+        param_list.append(f':crypt:/')
+        return " ".join(param_list)
 
-    cmd = " ".join(param_list)
-    return Cmd_Definition(diretorio, cmd)
+    cmd_backup = gen_cmd(diretorio)
+    
+    def cmd_recover(recover_path):
+         return gen_cmd(recover_path)
+
+    return Cmd_Definition(diretorio, cmd_backup, cmd_recover)
 
 def gen_crypt_file_name_off(diretorio, crypto_pass):
-    param_list = []
-    param_list.append(f'--crypt-remote {diretorio}')
-    param_list.append(f'--crypt-filename-encryption "off"')
-    param_list.append(f'--crypt-password "{crypto_pass}"')
-    param_list.append(f':crypt:/')
+    def gen_cmd(path):
+        param_list = []
+        param_list.append(f'--crypt-remote {diretorio}')
+        param_list.append(f'--crypt-filename-encryption "off"')
+        param_list.append(f'--crypt-password "{crypto_pass}"')
+        param_list.append(f':crypt:/')
+        return " ".join(param_list)
 
-    cmd = " ".join(param_list)
-    return Cmd_Definition(diretorio, cmd)
+    cmd_backup = gen_cmd(diretorio)
+    
+    def cmd_recover(recover_path):
+         return gen_cmd(recover_path)
+    
+    return Cmd_Definition(diretorio, cmd_backup, cmd_recover)

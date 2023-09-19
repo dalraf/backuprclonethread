@@ -8,10 +8,11 @@ rclone_web_acess_options = "serve http --addr :8080"
 def web_files_access(index, snapshot):
     value = location_list[index]
     destino = value["destin"].localpath
+    recover_function = value["destin"].cmd_recover
     list_command = [
         rclone_bin,
         rclone_web_acess_options,
-        gen_crypt(f"{destino}.zfs/snapshot/{snapshot}/"),
+        recover_function(f"{destino}.zfs/snapshot/{snapshot}/"),
     ]
     print(f"Acesse o link: http://{ip_nas}:8080")
     print("-" * 30)

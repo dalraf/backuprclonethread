@@ -24,7 +24,7 @@ def task(value):
         rclone_bin,
         rclone_options,
         value["origin"],
-        value["destin"].cmd,
+        value["destin"].cmd_backup,
         rclone_log_command,
     ]
     command = " ".join(list_command)
