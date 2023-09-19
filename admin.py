@@ -24,8 +24,7 @@ def get_file():
         print(index, "-", value["nome"].upper())
     print("-" * 30)
     index_pa = int(input(f"Selecione o PA: "))
-    cmd_destino = location_list[index_pa]["destin"]
-    destino = re.search(r'--crypt-remote\b(\d+)\b', cmd_destino).group(0)
+    destino = location_list[index_pa]["destin"].localpath
     list_snapshots = (
         subprocess.check_output(f"ls {destino}.zfs/snapshot/", shell=True)
         .decode()

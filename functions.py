@@ -1,3 +1,8 @@
+class Cmd_Definition():
+    def __init__(self, localpath ,cmd):
+        self.localpath = localpath
+        self.cmd = cmd
+
 
 def gen_sftp(host, port, user, diretorio, sftp_pass):
     param_list = []
@@ -31,7 +36,7 @@ def gen_crypt(diretorio, crypto_pass):
     param_list.append(f':crypt:/')
 
     cmd = " ".join(param_list)
-    return cmd
+    return Cmd_Definition(diretorio, cmd)
 
 def gen_crypt_encoding(diretorio, crypto_pass):
     param_list = []
@@ -41,7 +46,7 @@ def gen_crypt_encoding(diretorio, crypto_pass):
     param_list.append(f':crypt:/')
 
     cmd = " ".join(param_list)
-    return cmd
+    return Cmd_Definition(diretorio, cmd)
 
 def gen_crypt_file_name_off(diretorio, crypto_pass):
     param_list = []
@@ -51,4 +56,4 @@ def gen_crypt_file_name_off(diretorio, crypto_pass):
     param_list.append(f':crypt:/')
 
     cmd = " ".join(param_list)
-    return cmd
+    return Cmd_Definition(diretorio, cmd)
