@@ -66,6 +66,7 @@ def gen_crypt_file_name_off(diretorio, crypto_pass):
         param_list = []
         param_list.append(f'--crypt-remote {diretorio}')
         param_list.append(f'--crypt-filename-encryption "off"')
+        param_list.append(f'--crypt-suffix "none"')
         param_list.append(f'--crypt-password "{crypto_pass}"')
         param_list.append(f':crypt:/')
         return " ".join(param_list)
