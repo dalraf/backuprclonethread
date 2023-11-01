@@ -1,24 +1,22 @@
-maxthreads = 5
+from functions import gen_sftp, gen_smb, gen_crypt_file_name_off
 
-#Password obfuscate for rclone
-sftp_pass = ''
-crypto_pass = ''
+# Max Simlutaneos Threads
+maxthreads = 5
 
 # rclone Binary
 rclone_bin = "/usr/local/bin/rclone"
 
 # rclone options
-rclone_options = "sync -v"
+rclone_options = "sync -v --ignore-errors"
 
-# List of locations and destiny
+#Generate obfuscate password
+#rclone obscure passwd
 
-ip_nas = 'IP'
 
-location_list = []
-location_list.append(
+location_list = [
     {
-        "nome": "name",
-        "origin": ('IP', 'Port', 'user', 'dir'),
-        "destin": ('dir'),
-    }
-)
+        "nome": "example",
+        "origin": gen_sftp('ip', 'port', 'user', 'remote_path', 'passwd_obfusqued'),
+        "destin": gen_crypt_file_name_off('local_path', 'passwd_obfusqued'),
+    },
+]
