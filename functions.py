@@ -77,3 +77,17 @@ def gen_crypt_file_name_off(diretorio, crypto_pass):
          return gen_cmd(recover_path)
     
     return Cmd_Definition(diretorio, cmd_backup, cmd_recover)
+
+
+def gen_local(diretorio):
+    def gen_cmd(path):
+        param_list = []
+        param_list.append(f'{diretorio}')
+        return " ".join(param_list)
+
+    cmd_backup = gen_cmd(diretorio)
+    
+    def cmd_recover(recover_path):
+         return gen_cmd(recover_path)
+    
+    return Cmd_Definition(diretorio, cmd_backup, cmd_recover)
