@@ -29,6 +29,17 @@ def gen_smb(host, user, smb_pass, share):
     cmd = " ".join(param_list)
     return cmd
 
+def gen_smb_domain(host, user, domain, smb_pass, share):
+    param_list = []
+    param_list.append(f'--smb-host {host}')
+    param_list.append(f'--smb-user {user}')
+    param_list.append(f'--smb-domain {domain}')
+    param_list.append(f'--smb-pass "{smb_pass}"')
+    param_list.append(f'":smb:/{share}"')
+
+    cmd = " ".join(param_list)
+    return cmd
+
 def gen_crypt(diretorio, crypto_pass):
     def gen_cmd(path):
         param_list = []
