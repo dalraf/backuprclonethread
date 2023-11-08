@@ -32,7 +32,12 @@ def web_files_access():
     rclone_process_pid = subprocess.Popen(cmd, shell=True).pid
     return render_template(
         "index.html",
-        message = f"Permissão concedida para acessar o diretório.<br>Acesse <a href='http://{ip_nas}:8080'>aqui</a> para explorar.<br>O processo está em execução com o PID {rclone_process_pid}."
+        message=(
+            f"Permissão concedida para acessar o diretório.<br>"
+            f"Acesse <a href='http://{ip_nas}:8080'>aqui</a> para explorar.<br>"
+            f"O processo está em execução com o PID {rclone_process_pid}."
+            f"<br><br><a href='/'>Reniciar app</a>"
+        ),
     )
 
 
