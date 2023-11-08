@@ -10,7 +10,7 @@ rclone_web_acess_options = "serve http --addr :8080"
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", location_list=location_list)
 
 @app.route("/web-files-access", methods=["POST"])
 def web_files_access():
