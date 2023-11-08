@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect
 import subprocess
 import re
 from functions import *
@@ -16,36 +16,39 @@ def index():
     return render_template("index.html", location_list_index=location_list_index)
 
 
-@app.route("/web-files-access", methods=["POST"])
+@app.route("/web-files-access", methods=["POST", "GET"])
 def web_files_access():
-    index_pa = int(request.form["index_pa"])
-    snapshot = request.form["snapshot"]
-    value = location_list[index_pa]
-    destino = value["destin"].localpath
-    recover_function = value["destin"].cmd_recover
-    list_command = [
-        rclone_bin,
-        rclone_web_acess_options,
-        recover_function(f"{destino}.zfs/snapshot/{snapshot}/"),
-    ]
-    cmd = " ".join(list_command)
-    rclone_process_pid = subprocess.Popen(cmd, shell=True).pid
-    return render_template(
-        "index.html",
-        message=(
-            f"Permissão concedida para acessar o diretório.<br>"
-            f"Acesse <a href='http://{ip_nas}:8080' target='_blank'>aqui</a> para explorar.<br>"
-            f"O processo está em execução com o PID {rclone_process_pid}."
-            f"<br><br><a href='/'>Reniciar app</a>"
-        ),
-    )
+    if request.method == "GET":
+        return redirect("/")
+    else:
+        index_pa = int(request.form["index_pa"])
+        snapshot = request.form["snapshot"]
+        value = location_list[index_pa]
+        destino = value["destin"].localpath
+        recover_function = value["destin"].cmd_recover
+        list_command = [
+            rclone_bin,
+            rclone_web_acess_options,
+            recover_function(f"{destino}.zfs/snapshot/{snapshot}/"),
+        ]
+        cmd = " ".join(list_command)
+        rclone_process_pid = subprocess.Popen(cmd, shell=True).pid
+        return render_template(
+            "index.html",
+            message=(
+                f"Permissão concedida para acessar o diretório.<br>"
+                f"Acesse <a href='http://{ip_nas}:8080' target='_blank'>aqui</a> para explorar.<br>"
+                f"O processo está em execução com o PID {rclone_process_pid}."
+                f"<br><br><a href='/'>Reniciar app</a>"
+            ),
+        )
 
 
 @app.route("/get-snapshots/<int:index_pa>")
 def get_snapshots(index_pa):
     value = location_list[index_pa]
     destino = value["destin"].localpath
-    if destion[-1] == "/":
+    if destino[-1] == "/":
         destino = destino[:-1]
     list_snapshots = (
         subprocess.check_output(f"ls {destino}/.zfs/snapshot/", shell=True)
