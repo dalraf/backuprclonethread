@@ -3,8 +3,8 @@ import subprocess
 from log_file_handler import rotate_and_zip_logs
 import random
 import sys
+from functions import *
 from config import rclone_bin, rclone_options, location_list
-from functions import gen_sftp, gen_crypt
 
 
 if not len(sys.argv) > 1:
