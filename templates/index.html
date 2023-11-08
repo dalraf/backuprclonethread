@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Recuperação de arquivos</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
@@ -13,7 +14,7 @@
         <label for="index_pa">PA:</label>
         <select name="index_pa" id="index_pa">
             <option value="">Selecione o PA</option>
-            {% for index, value in location_list %}
+            {% for index, value in location_list_index %}
             <option value="{{ index }}">{{ value["nome"] }}</option>
             {% endfor %}
         </select>
@@ -24,19 +25,17 @@
                     var index_pa = $(this).val();
 
                     $.get("/get-snapshots/" + index_pa, function (data) {
-                        var options = [];
+                        var options = "";
 
                         $.each(data.snapshots, function (index, value) {
-                            options.push({
-                                value: value,
-                                text: value,
-                            });
+                            options += '<option value="' + value + '">' + value + '</option>';
                         });
 
                         $("#snapshot").html(options);
                     });
                 });
             });
+
 
         </script>
 

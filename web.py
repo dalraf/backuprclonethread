@@ -1,16 +1,19 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import subprocess
 import re
 from functions import *
 from config import rclone_bin, location_list, ip_nas
+from flask_socketio import SocketIO
 
 app = Flask(__name__)
+socketio = SocketIO(app)
 
 rclone_web_acess_options = "serve http --addr :8080"
 
 @app.route("/")
 def index():
-    return render_template("index.html", location_list=location_list)
+    location_list_index = list(enumerate(location_list))
+    return render_template("index.html", location_list_index=location_list_index)
 
 @app.route("/web-files-access", methods=["POST"])
 def web_files_access():
