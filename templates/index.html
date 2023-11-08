@@ -48,7 +48,7 @@
     </form>
 
     {% if message %}
-    <div class="message">{{ message }}</div>
+    <div class="message">{{ message | safe }}</div>
     {% endif %}
 </body>
 

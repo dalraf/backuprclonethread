@@ -6,12 +6,12 @@ from config import rclone_bin, location_list, ip_nas
 
 app = Flask(__name__)
 
-rclone_web_acess_options = "serve http --addr :8081"
+rclone_web_acess_options = "serve http --addr :8080"
 
 
 @app.route("/")
 def index():
-    subprocess.run('killall rclone', shell=True, check=False)
+    subprocess.run("killall rclone", shell=True, check=False)
     location_list_index = list(enumerate(location_list))
     return render_template("index.html", location_list_index=location_list_index)
 
@@ -32,7 +32,7 @@ def web_files_access():
     rclone_process_pid = subprocess.Popen(cmd, shell=True).pid
     return render_template(
         "index.html",
-        message=f"Acesso ao diretório concedido. Acesse http://{ip_nas}:8081, o processo roda no pid {rclone_process_pid}",
+        message = f"Permissão concedida para acessar o diretório.<br>Acesse <a href='http://{ip_nas}:8080'>aqui</a> para explorar.<br>O processo está em execução com o PID {rclone_process_pid}."
     )
 
 
