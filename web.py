@@ -34,7 +34,7 @@ def web_files_access():
         "index.html",
         message=(
             f"Permissão concedida para acessar o diretório.<br>"
-            f"Acesse <a href='http://{ip_nas}:8080'>aqui</a> para explorar.<br>"
+            f"Acesse <a href='http://{ip_nas}:8080' target='_blank'>aqui</a> para explorar.<br>"
             f"O processo está em execução com o PID {rclone_process_pid}."
             f"<br><br><a href='/'>Reniciar app</a>"
         ),
@@ -45,8 +45,10 @@ def web_files_access():
 def get_snapshots(index_pa):
     value = location_list[index_pa]
     destino = value["destin"].localpath
+    if destion[-1] == "/":
+        destino = destino[:-1]
     list_snapshots = (
-        subprocess.check_output(f"ls {destino}.zfs/snapshot/", shell=True)
+        subprocess.check_output(f"ls {destino}/.zfs/snapshot/", shell=True)
         .decode()
         .split("\n")
     )
