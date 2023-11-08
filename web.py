@@ -11,6 +11,7 @@ rclone_web_acess_options = "serve http --addr :8081"
 
 @app.route("/")
 def index():
+    subprocess.run('killall rclone', shell=True, check=False)
     location_list_index = list(enumerate(location_list))
     return render_template("index.html", location_list_index=location_list_index)
 
