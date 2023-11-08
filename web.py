@@ -3,17 +3,17 @@ import subprocess
 import re
 from functions import *
 from config import rclone_bin, location_list, ip_nas
-from flask_socketio import SocketIO
 
 app = Flask(__name__)
-socketio = SocketIO(app)
 
-rclone_web_acess_options = "serve http --addr :8080"
+rclone_web_acess_options = "serve http --addr :8081"
+
 
 @app.route("/")
 def index():
     location_list_index = list(enumerate(location_list))
     return render_template("index.html", location_list_index=location_list_index)
+
 
 @app.route("/web-files-access", methods=["POST"])
 def web_files_access():
@@ -27,38 +27,13 @@ def web_files_access():
         rclone_web_acess_options,
         recover_function(f"{destino}.zfs/snapshot/{snapshot}/"),
     ]
-
-    print(f"Acesse o link: http://{ip_nas}:8080")
-    print("-" * 30)
     cmd = " ".join(list_command)
-    print(cmd)
-    subprocess.call(cmd, shell=True)
-
-    return render_template("index.html", message="Acesso ao diretório concedido.")
-
-@app.route("/get-file")
-def get_file():
-    for index, value in enumerate(location_list):
-        print(index, "-", value["nome"].upper())
-    print("-" * 30)
-    index_pa = int(input(f"Selecione o PA: "))
-    destino = location_list[index_pa]["destin"].localpath
-    list_snapshots = (
-        subprocess.check_output(f"ls {destino}.zfs/snapshot/", shell=True)
-        .decode()
-        .split("\n")
+    rclone_process_pid = subprocess.Popen(cmd, shell=True).pid
+    return render_template(
+        "index.html",
+        message=f"Acesso ao diretório concedido. Acesse http://{ip_nas}:8081, o processo roda no pid {rclone_process_pid}",
     )
-    list_snapshots = [i for i in list_snapshots[::-1] if i != '']
 
-    for index, value in enumerate(list_snapshots):
-        print(index, "-", value)
-    print("-" * 30)
-    index_snapshot = int(input(f"Selecione o Snaphost: "))
-    snapshot = list_snapshots[index_snapshot]
-
-    web_files_access(index_pa, snapshot)
-
-    return render_template("index.html", message="Acesso ao diretório concedido.")
 
 @app.route("/get-snapshots/<int:index_pa>")
 def get_snapshots(index_pa):
@@ -69,7 +44,7 @@ def get_snapshots(index_pa):
         .decode()
         .split("\n")
     )
-    list_snapshots = [i for i in list_snapshots[::-1] if i != '']
+    list_snapshots = [i for i in list_snapshots[::-1] if i != ""]
 
     return jsonify({"snapshots": list_snapshots})
 
@@ -77,11 +52,12 @@ def get_snapshots(index_pa):
 @app.route("/get-log")
 def get_log():
     log_dir = "/var/log/"
-    print(f"Acesse o link: http://{ip_nas}:8080")
-    print("-" * 30)
-    subprocess.call(f'rclone serve http --addr :8080 {log_dir} --include "backup*" ', shell=True)
+    subprocess.call(
+        f'rclone serve http --addr :8080 {log_dir} --include "backup*" ', shell=True
+    )
 
     return render_template("index.html", message="Acesso aos logs concedido.")
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
