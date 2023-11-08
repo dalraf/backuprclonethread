@@ -59,7 +59,7 @@ def gen_crypt(diretorio, crypto_pass):
 def gen_crypt_encoding(diretorio, crypto_pass):
     def gen_cmd(path):
         param_list = []
-        param_list.append(f'--crypt-remote {diretorio}')
+        param_list.append(f'--crypt-remote {path}')
         param_list.append(f'--crypt-filename-encoding "base64"')
         param_list.append(f'--crypt-password "{crypto_pass}"')
         param_list.append(f':crypt:/')
@@ -75,7 +75,7 @@ def gen_crypt_encoding(diretorio, crypto_pass):
 def gen_crypt_file_name_off(diretorio, crypto_pass):
     def gen_cmd(path):
         param_list = []
-        param_list.append(f'--crypt-remote {diretorio}')
+        param_list.append(f'--crypt-remote {path}')
         param_list.append(f'--crypt-filename-encryption "off"')
         param_list.append(f'--crypt-suffix "none"')
         param_list.append(f'--crypt-password "{crypto_pass}"')
@@ -93,7 +93,7 @@ def gen_crypt_file_name_off(diretorio, crypto_pass):
 def gen_local(diretorio):
     def gen_cmd(path):
         param_list = []
-        param_list.append(f'{diretorio}')
+        param_list.append(f'{path}')
         return " ".join(param_list)
 
     cmd_backup = gen_cmd(diretorio)
