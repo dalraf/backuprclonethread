@@ -1,4 +1,4 @@
-from functions import gen_sftp, gen_smb, gen_crypt_file_name_off
+from functions import *
 
 # Max Simlutaneos Threads
 maxthreads = 5

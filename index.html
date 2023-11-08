@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Recuperação de arquivos</title>
+</head>
+<body>
+    <h1>Recuperação de arquivos</h1>
+
+    <form action="/web-files-access" method="post">
+        <label for="index_pa">PA:</label>
+        <select name="index_pa" id="index_pa">
+            <option value="">Selecione o PA</option>
+            {% for index, value in location_list %}
+                <option value="{{ index }}">{{ value["nome"] }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="snapshot">Snapshot:</label>
+        <input type="text" name="snapshot" id="snapshot" placeholder="Selecione o snapshot">
+
+        <button type="submit">Recuperar</button>
+    </form>
+
+    {% if message %}
+        <div class="message">{{ message }}</div>
+    {% endif %}
+</body>
+</html>
