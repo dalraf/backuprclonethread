@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <title>Recuperação de arquivos</title>
 </head>
+
 <body>
     <h1>Recuperação de arquivos</h1>
 
@@ -12,18 +14,43 @@
         <select name="index_pa" id="index_pa">
             <option value="">Selecione o PA</option>
             {% for index, value in location_list %}
-                <option value="{{ index }}">{{ value["nome"] }}</option>
+            <option value="{{ index }}">{{ value["nome"] }}</option>
             {% endfor %}
         </select>
 
+        <script>
+            $(document).ready(function () {
+                $("#index_pa").change(function () {
+                    var index_pa = $(this).val();
+
+                    $.get("/get-snapshots/" + index_pa, function (data) {
+                        var options = [];
+
+                        $.each(data.snapshots, function (index, value) {
+                            options.push({
+                                value: value,
+                                text: value,
+                            });
+                        });
+
+                        $("#snapshot").html(options);
+                    });
+                });
+            });
+
+        </script>
+
         <label for="snapshot">Snapshot:</label>
-        <input type="text" name="snapshot" id="snapshot" placeholder="Selecione o snapshot">
+        <select name="snapshot" id="snapshot">
+            <option value="">Selecione o snapshot</option>
+        </select>
 
         <button type="submit">Recuperar</button>
     </form>
 
     {% if message %}
-        <div class="message">{{ message }}</div>
+    <div class="message">{{ message }}</div>
     {% endif %}
 </body>
+
 </html>

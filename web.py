@@ -57,6 +57,20 @@ def get_file():
 
     return render_template("index.html", message="Acesso ao diretório concedido.")
 
+@app.route("/get-snapshots/<int:index_pa>")
+def get_snapshots(index_pa):
+    value = location_list[index_pa]
+    destino = value["destin"].localpath
+    list_snapshots = (
+        subprocess.check_output(f"ls {destino}.zfs/snapshot/", shell=True)
+        .decode()
+        .split("\n")
+    )
+    list_snapshots = [i for i in list_snapshots[::-1] if i != '']
+
+    return jsonify({"snapshots": list_snapshots})
+
+
 @app.route("/get-log")
 def get_log():
     log_dir = "/var/log/"
