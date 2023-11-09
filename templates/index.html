@@ -18,7 +18,7 @@
                 <select name="index_pa" id="index_pa">
                     <option value="">Selecione o PA</option>
                     {% for index, value in location_list_index %}
-                    <option value="{{ index }}">{{ value["nome"] }}</option>
+                    <option value="{{ index }}">{{ value["nome"] | upper }}</option>
                     {% endfor %}
                 </select>
             </div>
