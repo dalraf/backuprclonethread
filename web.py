@@ -28,10 +28,12 @@ def web_files_access():
             value = location_list[index_pa]
             destino = value["destin"].localpath
             recover_function = value["destin"].cmd_recover
+            if destino[-1] == "/":
+                destino = destino[:-1]
             list_command = [
                 rclone_bin,
                 rclone_web_acess_options,
-                recover_function(f"{destino}.zfs/snapshot/{snapshot}/"),
+                recover_function(f"{destino}/.zfs/snapshot/{snapshot}/"),
             ]
             cmd = " ".join(list_command)
             rclone_process_pid = subprocess.Popen(cmd, shell=True).pid
